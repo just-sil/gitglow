@@ -31,6 +31,17 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 .since{text-align:center;font-family:"Courier New",monospace;font-size:13px;font-weight:bold;letter-spacing:.05em;margin-top:8px}
 .dash{border-top:2px dashed #222;margin:18px 0}
 .stat{display:flex;justify-content:space-between;gap:8px;font-family:"Courier New",monospace;font-size:13px;font-weight:800;margin:11px 0;text-transform:uppercase}.stat span:last-child{text-align:right}
+.contrib-meta{font:8px 'Courier New',monospace;color:#555;margin-top:5px}
+.contrib-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,6px);grid-auto-columns:4px;gap:2px;overflow:hidden;max-width:100%;padding:2px 0}
+.contrib-cell{width:4px;height:6px;border-radius:1px;background:#e8e7e2}
+.contrib-cell[data-level="1"]{background:#c5e8c9}.contrib-cell[data-level="2"]{background:#83cf91}.contrib-cell[data-level="3"]{background:#43ad61}.contrib-cell[data-level="4"]{background:#17743a}
+.receipt-footer{position:relative;isolation:isolate;overflow:hidden;margin:19px -5px 0;padding:8px 5px 5px;min-height:100px;border-top:2px dashed #222}
+.receipt-footer>.contrib-grid{position:absolute;inset:5px 0 0;width:100%;height:100%;grid-template-rows:repeat(7,6px);grid-auto-columns:4px;gap:2px;justify-content:center;align-content:center;opacity:.68;z-index:-1;padding:0}
+.footer-content{position:relative;text-align:center;background:linear-gradient(180deg,rgba(255,254,250,.62),rgba(255,254,250,.78));padding:1px 0 3px}
+.thanks{text-align:center;font-family:"Courier New",monospace;font-size:13px;font-weight:900;letter-spacing:.1em;margin:4px 0 5px}
+.gh-icon{text-align:center;font-size:22px}
+.footer-caption{font:900 10px 'Courier New',monospace;margin-top:5px;overflow-wrap:anywhere}
+.receipt-footer .contrib-meta{font-size:8px;color:#4b4b4b;margin-top:5px}
 .langs{display:flex;flex-wrap:wrap;gap:5px;margin:13px 0}.lang{border:1px solid #d4d0c6;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:750}
 .active{font-family:"Courier New",monospace;font-weight:900;font-size:13px;display:inline-block;border:2px solid var(--blue);border-radius:50%;padding:7px 10px;transform:rotate(-3deg);margin:2px 0}
 .doodle{color:var(--blue);font-family:"Comic Sans MS",cursive;font-size:15px;position:absolute;right:16px;top:49%;transform:rotate(9deg)}
@@ -75,8 +86,15 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <div class="langs" id="languages"><span class="lang">JavaScript</span><span class="lang">HTML</span><span class="lang">CSS</span></div>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px"><span class="active">OPEN SOURCE ERA</span><span id="years" style="font:900 13px 'Courier New',monospace">... 14 YRS</span></div>
 <div class="doodle" id="note">nice work!</div>
-<div class="thanks" id="thanks">KEEP SHIPPING</div><div class="gh-icon">⌘</div>
-<div style="text-align:center;font:10px 'Courier New',monospace;margin-top:8px" id="cardCaption">made on the internet ♡</div>
+<div class="receipt-footer">
+<div class="contrib-grid" id="contribGrid" aria-label="GitHub contribution activity heatmap"></div>
+<div class="footer-content">
+<div class="thanks" id="thanks">KEEP SHIPPING 🌈</div>
+<div class="gh-icon">⌘</div>
+<div class="footer-caption" id="cardCaption">small commits, big dreams ✨</div>
+<div class="contrib-meta" id="contribMeta">contributions · last year</div>
+</div>
+</div>
 </div></div>
 <div class="preview-actions"><button type="button" class="secondary" id="refreshBtn">Refresh stats</button><button type="button" id="downloadBtn2">Download PNG ↓</button></div>
 </section>
@@ -86,7 +104,26 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <script>
 const $=id=>document.getElementById(id);
 let currentUser='octocat', generated=false;
+const randomLines = ["small commits, big dreams ✨", "shipping pixels and possibilities 🌈", "built one bug at a time", "powered by late-night ideas 🌙", "making the internet a little better", "currently compiling my future", "less scrolling, more building", "dream it, commit it", "good things take commits", "one more push, then sleep", "code is my kind of craft", "tiny steps, real progress", "creating my own little corner of the web", "debugging my way forward", "here for the side quests", "ideas into interfaces", "keep making weird things", "a work in progress, always", "built with curiosity", "my git history tells stories", "somewhere between coffee and code ☕", "turning thoughts into things", "made with a little chaos", "committed to the craft", "the best is still unwritten", "learning in public", "just here to build", "pixels with purpose", "from localhost with love", "one day, one commit", "curiosity shipped this", "building in the open", "a little bit of logic, a lot of heart", "code today, glow tomorrow", "the internet is my canvas", "small wins count too", "not done dreaming yet", "this is what progress looks like", "created between classes", "built on curiosity and snacks", "keep the good ideas coming", "hello world, again", "making mistakes look useful", "progress over perfection", "fresh commits, fresh starts", "the future is a side project", "let the ideas escape", "built for the plot", "making things that feel like me", "another day, another deploy", "turning caffeine into commits", "crafting my digital footprint", "my favorite place is build mode", "still learning, still shipping", "a little magic in the markup", "the fun is in the making", "one repo at a time", "art, logic, and a save button", "made of tabs and ambition", "the next version is loading", "the journey is the feature", "built different, debugged similarly", "my ideas have a home now", "here to leave a little trace", "creative chaos, clean commits", "less perfect, more published", "proof that I was here", "building beyond the brief", "code with a point of view", "future me will thank me", "some ideas deserve a URL", "just one more feature", "made to be remixed", "my tiny internet footprint", "a browser full of possibilities", "keep your curiosity open", "another small thing made real", "the source is the story", "good vibes, clean diffs", "making the invisible clickable", "ideas look good in production", "from a thought to a thing", "I came, I coded, I pushed", "a little more human than automated", "my kind of happy place", "built out of what-if", "today's idea, tomorrow's tool", "a soft launch for a big dream", "making room for better ideas", "open tabs, open possibilities", "this project has lore", "somewhere, a commit is happening", "the little details matter", "keep creating your own luck", "one line closer", "not just a profile, a story", "the web is better when we make", "made with intention and iteration", "here's to the next build", "still becoming, still building"];
+let activeRandomLine = randomLines[Math.floor(Math.random()*randomLines.length)];
+function pickRandomLine(){ activeRandomLine = randomLines[Math.floor(Math.random()*randomLines.length)]; return activeRandomLine; }
 function setStatus(msg,kind=''){ $('status').textContent=msg;$('status').className='status '+kind; }
+function renderContributionGrid(contributions, total){
+ const grid=$('contribGrid'); grid.innerHTML='';
+ const byDate=new Map((contributions||[]).map(d=>[d.date,d]));
+ const end=new Date(); end.setHours(0,0,0,0);
+ const start=new Date(end); start.setDate(start.getDate()-363); start.setDate(start.getDate()-start.getDay());
+ let count=0, d=new Date(start);
+ while(d<=end){
+  const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const item=byDate.get(key); const cell=document.createElement('span');
+  cell.className='contrib-cell'; cell.dataset.level=String(item?Number(item.level)||0:0);
+  const n=item?Number(item.count)||0:0; count+=n;
+  cell.title=key+': '+n+' contributions'; grid.appendChild(cell);
+  d.setDate(d.getDate()+1);
+ }
+ $('contribMeta').textContent=(total==null?count:Number(total)).toLocaleString()+' contributions · last year';
+}
 function parseUsername(value){
  let v=value.trim().replace(/^@/,'').replace(/\/+$/,'');
  try{if(v.includes('://'))v=new URL(v).pathname;else if(v.includes('github.com/'))v=v.slice(v.indexOf('github.com/')+11); }catch(e){}
@@ -111,6 +148,14 @@ async function generate(){
   const stars=repos.reduce((sum,r)=>sum+(r.stargazers_count||0),0);
   const langCounts={};repos.forEach(r=>{if(r.language)langCounts[r.language]=(langCounts[r.language]||0)+1});
   const langs=Object.entries(langCounts).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);
+  try{
+   const cr=await fetch('https://github-contributions-api.jogruber.de/v4/'+encodeURIComponent(username)+'?y=last');
+   if(cr.ok){
+    const cd=await cr.json();
+    const ct=cd.total?Object.values(cd.total).reduce((a,b)=>a+(Number(b)||0),0):undefined;
+    renderContributionGrid(cd.contributions,ct);
+   } else { renderContributionGrid([],0); $('contribMeta').textContent='Contribution graph unavailable'; }
+  }catch(err){ renderContributionGrid([],0); $('contribMeta').textContent='Contribution graph unavailable'; }
   const created=new Date(u.created_at);const years=Math.max(0,Math.floor((Date.now()-created.getTime())/(365.2425*86400000)));
   $('avatar').src=u.avatar_url+'&s=300';$('avatar').alt=username+' avatar';
   $('cardName').textContent='@'+u.login;
@@ -122,7 +167,7 @@ async function generate(){
   $('years').textContent='... '+years+' YRS';
   $('languages').innerHTML=(langs.length?langs:['STILL EXPLORING']).map(l=>'<span class="lang"></span>').join('');
   [...$('languages').children].forEach((el,i)=>el.textContent=(langs.length?langs:['STILL EXPLORING'])[i]);
-  $('cardCaption').textContent=$('caption').value.trim()||'made on the internet ♡';
+  $('cardCaption').textContent=$('caption').value.trim()||pickRandomLine();
   currentUser=u.login;generated=true;setStatus('Receipt ready for @'+u.login+'. Looking good.','ok');
   applyStyle();
  }catch(e){setStatus(e.message||'Something went wrong. Check your connection and try again.','error')}
@@ -138,7 +183,7 @@ function applyStyle(){
 $('form').addEventListener('submit',e=>{e.preventDefault();generate()});
 $('refreshBtn').addEventListener('click',()=>{if(!$('usernameInput').value)$('usernameInput').value=currentUser;generate()});
 $('style').addEventListener('change',applyStyle);
-$('caption').addEventListener('input',()=>{$('cardCaption').textContent=$('caption').value.trim()||'made on the internet ♡'});
+$('caption').addEventListener('input',()=>{$('cardCaption').textContent=$('caption').value.trim()||activeRandomLine;});
 async function download(){
  if(!generated){setStatus('Generate a real profile first, then download.','error');return}
  setStatus('Preparing high-resolution PNG…');
@@ -150,6 +195,8 @@ async function download(){
  }catch(e){setStatus('PNG export failed. Try another browser or disable strict content blockers.','error')}
 }
 $('downloadBtn').addEventListener('click',download);$('downloadBtn2').addEventListener('click',download);
+renderContributionGrid([],0);
+$('cardCaption').textContent=activeRandomLine;
 applyStyle();
 </script>
 </body>
