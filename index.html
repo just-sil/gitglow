@@ -19,7 +19,7 @@ h1{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.065em;margin:
 label{display:block;font-size:12px;font-weight:750;margin:18px 0 8px}
 .inputrow{display:flex;gap:8px}input,select{width:100%;padding:13px 14px;border:1px solid #dcd8d0;border-radius:12px;background:#fff;font:inherit;font-size:14px;outline:none}input:focus,select:focus{border-color:#555ec1;box-shadow:0 0 0 3px #555ec11a}
 button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17px;font-weight:750;font-size:13px;cursor:pointer;white-space:nowrap;transition:transform .15s,opacity .15s}button:hover{transform:translateY(-1px)}button:disabled{opacity:.55;cursor:wait}
-.full{width:100%;margin-top:16px}.photo-toggle{display:flex;align-items:center;gap:8px;font-size:13px;margin:10px 0}.photo-toggle input{width:auto;accent-color:#16a34a}\n.hint{font-size:11px;color:#88837b;line-height:1.5;margin-top:10px}.status{font-size:12px;min-height:18px;margin-top:12px;color:#555}.status.error{color:#b42318}.status.ok{color:#26734d}
+.full{width:100%;margin-top:16px}.photo-toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400;margin:10px 0}.photo-toggle input{width:auto;accent-color:#16a34a}\n.hint{font-size:11px;color:#88837b;line-height:1.5;margin-top:10px}.status{font-size:12px;min-height:18px;margin-top:12px;color:#555}.status.error{color:#b42318}.status.ok{color:#26734d}
 .previewwrap{background:#e8e5df;border:1px solid #dedad2;border-radius:22px;padding:22px;display:flex;justify-content:center;overflow:hidden}
 .receipt{position:relative;width:min(100%,370px);background:var(--paper);padding:25px 25px 20px;box-shadow:0 12px 30px #1717171b;transform:rotate(.2deg);isolation:isolate}
 .receipt:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.25;background:repeating-linear-gradient(0deg,transparent 0px,transparent 5px,#cfcac0 6px),radial-gradient(ellipse at 20% 30%,#e9e5dc 0,transparent 60%)}
@@ -50,6 +50,11 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 .preview-actions{display:flex;gap:8px;margin-top:12px}.preview-actions button{flex:1}.secondary{background:#fff;color:#171717;border:1px solid #d9d5ce}
 .foot{text-align:center;color:#88837b;font-size:11px;margin-top:24px}
 @media(max-width:780px){header{padding:20px 16px}main{padding:0 16px}.layout{grid-template-columns:1fr}.hero{margin:20px 0 28px}.panel{padding:20px}.previewwrap{padding:18px}.receipt{max-width:350px}}
+
+@media (max-width: 600px){
+  .hint{font-size:11px;line-height:1.45}
+}
+
 </style>
 </head>
 <body>
