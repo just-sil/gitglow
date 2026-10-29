@@ -26,7 +26,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 .receipt:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:9px;background:linear-gradient(135deg,var(--paper) 6px,transparent 0) 0 0/12px 12px,linear-gradient(225deg,var(--paper) 6px,transparent 0) 0 0/12px 12px;transform:rotate(180deg)}
 .paperhead{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.14em;color:#65615b;font-weight:800;text-transform:uppercase}
 .githubword{font-size:11px;letter-spacing:.08em}
-.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;display:block;margin:21px auto 12px;filter:grayscale(1);border:3px solid #222}.avatar.color-photo{filter:none}
+.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;display:block;margin:21px auto 12px;filter:grayscale(1);border:3px solid #222}.avatar:not(.loaded){visibility:hidden}.avatar.color-photo{filter:none}
 .username{text-align:center;font-family:Georgia,serif;font-size:27px;font-weight:900;letter-spacing:-.06em;overflow-wrap:anywhere}
 .since{text-align:center;font-family:"Courier New",monospace;font-size:13px;font-weight:bold;letter-spacing:.05em;margin-top:8px}
 .dash{border-top:2px dashed #222;margin:18px 0}
@@ -66,7 +66,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <h2>Make your receipt</h2><p class="sub">Use a public GitHub profile URL or just the username.</p>
 <form id="form">
 <label for="usernameInput">GitHub profile</label>
-<div class="inputrow"><input id="usernameInput" placeholder="github.com/just-sil" autocomplete="url" required><button id="generateBtn" type="submit">Generate ↗</button></div>
+<div class="inputrow"><input id="usernameInput" value="github" placeholder="Enter GitHub username or URL" autocomplete="url" required><button id="generateBtn" type="submit">Generate ↗</button></div>
 <label for="style">Receipt style</label><select id="style"><option value="classic">Vintage paper + holographic stickers</option><option value="clean">Clean monochrome</option><option value="blue">Blue ink scrapbook</option></select>
 <label class="photo-toggle"><input id="colorPhoto" type="checkbox"> Use colour profile photo</label>
 <label for="caption">Little note (optional)</label><input id="caption" maxlength="35" placeholder="built different, probably">
@@ -79,18 +79,18 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <div class="previewwrap"><div class="receipt" id="receipt">
 <div class="paperhead"><span>DEV / PROFILE</span><span class="githubword">GITHUB ⌘</span></div>
 <div class="sticker s1" id="sticker1">⭐</div><div class="sticker s2" id="sticker2">💿</div><div class="sticker s3" id="sticker3">🌈</div>
-<img class="avatar" id="avatar" src="https://avatars.githubusercontent.com/u/1?v=4" alt="GitHub avatar">
-<div class="username" id="cardName">@octocat</div>
-<div class="since" id="since">MEMBER SINCE 2011</div>
+<img class="avatar" id="avatar" src="" alt="Profile photo appears after generating">
+<div class="username" id="cardName">@your-username</div>
+<div class="since" id="since">MEMBER SINCE —</div>
 <div class="dash"></div>
-<div class="stat"><span>Repositories</span><span id="repos">..... 8</span></div>
-<div class="stat"><span>Followers</span><span id="followers">..... 12</span></div>
-<div class="stat"><span>Following</span><span id="following">..... 9</span></div>
-<div class="stat"><span>Public stars</span><span id="stars">..... 0</span></div>
+<div class="stat"><span>Repositories</span><span id="repos">..... —</span></div>
+<div class="stat"><span>Followers</span><span id="followers">..... —</span></div>
+<div class="stat"><span>Following</span><span id="following">..... —</span></div>
+<div class="stat"><span>Public stars</span><span id="stars">..... —</span></div>
 <div class="dash"></div>
 <div style="font-size:10px;font-weight:900;letter-spacing:.1em">TOP LANGUAGES</div>
-<div class="langs" id="languages"><span class="lang">JavaScript</span><span class="lang">HTML</span><span class="lang">CSS</span></div>
-<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px"><span class="active">OPEN SOURCE ERA</span><span id="years" style="font:900 13px 'Courier New',monospace">... 14 YRS</span></div>
+<div class="langs" id="languages"><span class="lang">Languages appear here</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px"><span class="active">OPEN SOURCE ERA</span><span id="years" style="font:900 13px 'Courier New',monospace">... — YRS</span></div>
 <div class="doodle" id="note">nice work!</div>
 <div class="receipt-footer">
 <div class="contrib-grid" id="contribGrid" aria-label="GitHub contribution activity heatmap"></div>
@@ -98,7 +98,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <div class="thanks" id="thanks">KEEP SHIPPING 🌈</div>
 <div class="gh-icon">⌘</div>
 <div class="footer-caption" id="cardCaption">small commits, big dreams ✨</div>
-<div class="contrib-meta" id="contribMeta">contributions · last year</div>
+<div class="contrib-meta" id="contribMeta">contributions appear after generation</div>
 </div>
 </div>
 </div></div>
@@ -109,7 +109,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 </main>
 <script>
 const $=id=>document.getElementById(id);
-let currentUser='octocat', generated=false;
+let currentUser='', generated=false;
 const randomLines = ["small commits, big dreams ✨", "shipping pixels and possibilities 🌈", "built one bug at a time", "powered by late-night ideas 🌙", "making the internet a little better", "currently compiling my future", "less scrolling, more building", "dream it, commit it", "good things take commits", "one more push, then sleep", "code is my kind of craft", "tiny steps, real progress", "creating my own little corner of the web", "debugging my way forward", "here for the side quests", "ideas into interfaces", "keep making weird things", "a work in progress, always", "built with curiosity", "my git history tells stories", "somewhere between coffee and code ☕", "turning thoughts into things", "made with a little chaos", "committed to the craft", "the best is still unwritten", "learning in public", "just here to build", "pixels with purpose", "from localhost with love", "one day, one commit", "curiosity shipped this", "building in the open", "a little bit of logic, a lot of heart", "code today, glow tomorrow", "the internet is my canvas", "small wins count too", "not done dreaming yet", "this is what progress looks like", "created between classes", "built on curiosity and snacks", "keep the good ideas coming", "hello world, again", "making mistakes look useful", "progress over perfection", "fresh commits, fresh starts", "the future is a side project", "let the ideas escape", "built for the plot", "making things that feel like me", "another day, another deploy", "turning caffeine into commits", "crafting my digital footprint", "my favorite place is build mode", "still learning, still shipping", "a little magic in the markup", "the fun is in the making", "one repo at a time", "art, logic, and a save button", "made of tabs and ambition", "the next version is loading", "the journey is the feature", "built different, debugged similarly", "my ideas have a home now", "here to leave a little trace", "creative chaos, clean commits", "less perfect, more published", "proof that I was here", "building beyond the brief", "code with a point of view", "future me will thank me", "some ideas deserve a URL", "just one more feature", "made to be remixed", "my tiny internet footprint", "a browser full of possibilities", "keep your curiosity open", "another small thing made real", "the source is the story", "good vibes, clean diffs", "making the invisible clickable", "ideas look good in production", "from a thought to a thing", "I came, I coded, I pushed", "a little more human than automated", "my kind of happy place", "built out of what-if", "today's idea, tomorrow's tool", "a soft launch for a big dream", "making room for better ideas", "open tabs, open possibilities", "this project has lore", "somewhere, a commit is happening", "the little details matter", "keep creating your own luck", "one line closer", "not just a profile, a story", "the web is better when we make", "made with intention and iteration", "here's to the next build", "still becoming, still building"];
 let activeRandomLine = randomLines[Math.floor(Math.random()*randomLines.length)];
 function pickRandomLine(){ activeRandomLine = randomLines[Math.floor(Math.random()*randomLines.length)]; return activeRandomLine; }
@@ -139,7 +139,7 @@ function parseUsername(value){
 }
 async function generate(){
  let username;
- try{username=parseUsername($('usernameInput').value||currentUser)}catch(e){setStatus(e.message,'error');return}
+ try{username=parseUsername($('usernameInput').value)}catch(e){setStatus(e.message,'error');return}
  $('generateBtn').disabled=true;setStatus('Fetching public GitHub profile…');
  try{
   const headers={'Accept':'application/vnd.github+json'};
@@ -163,7 +163,7 @@ async function generate(){
    } else { renderContributionGrid([],0); $('contribMeta').textContent='Contribution graph unavailable'; }
   }catch(err){ renderContributionGrid([],0); $('contribMeta').textContent='Contribution graph unavailable'; }
   const created=new Date(u.created_at);const years=Math.max(0,Math.floor((Date.now()-created.getTime())/(365.2425*86400000)));
-  $('avatar').src=u.avatar_url+'&s=300';$('avatar').alt=username+' avatar';
+  $('avatar').src=u.avatar_url+'&s=300';$('avatar').alt=username+' avatar';$('avatar').classList.add('loaded');
   $('cardName').textContent='@'+u.login;
   $('since').textContent='MEMBER SINCE '+created.getFullYear();
   $('repos').textContent='..... '+u.public_repos;
@@ -187,7 +187,7 @@ function applyStyle(){
  $('thanks').textContent=style==='clean'?'BUILT WITH INTENT':'KEEP SHIPPING';
 }
 $('form').addEventListener('submit',e=>{e.preventDefault();generate()});
-$('refreshBtn').addEventListener('click',()=>{if(!$('usernameInput').value)$('usernameInput').value=currentUser;generate()});
+$('refreshBtn').addEventListener('click',()=>{if(currentUser)$('usernameInput').value=currentUser;generate()});
 $('style').addEventListener('change',applyStyle);
 $('colorPhoto').addEventListener('change',()=>{$('avatar').classList.toggle('color-photo',$('colorPhoto').checked)});
 $('caption').addEventListener('input',()=>{$('cardCaption').textContent=$('caption').value.trim()||activeRandomLine;});
@@ -205,6 +205,7 @@ $('downloadBtn').addEventListener('click',download);$('downloadBtn2').addEventLi
 renderContributionGrid([],0);
 $('cardCaption').textContent=activeRandomLine;
 applyStyle();
+$('form').requestSubmit();
 </script>
 </body>
 </html>
