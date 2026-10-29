@@ -19,14 +19,14 @@ h1{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.065em;margin:
 label{display:block;font-size:12px;font-weight:750;margin:18px 0 8px}
 .inputrow{display:flex;gap:8px}input,select{width:100%;padding:13px 14px;border:1px solid #dcd8d0;border-radius:12px;background:#fff;font:inherit;font-size:14px;outline:none}input:focus,select:focus{border-color:#555ec1;box-shadow:0 0 0 3px #555ec11a}
 button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17px;font-weight:750;font-size:13px;cursor:pointer;white-space:nowrap;transition:transform .15s,opacity .15s}button:hover{transform:translateY(-1px)}button:disabled{opacity:.55;cursor:wait}
-.full{width:100%;margin-top:16px}.hint{font-size:11px;color:#88837b;line-height:1.5;margin-top:10px}.status{font-size:12px;min-height:18px;margin-top:12px;color:#555}.status.error{color:#b42318}.status.ok{color:#26734d}
+.full{width:100%;margin-top:16px}.photo-toggle{display:flex;align-items:center;gap:8px;font-size:13px;margin:10px 0}.photo-toggle input{width:auto;accent-color:#16a34a}\n.hint{font-size:11px;color:#88837b;line-height:1.5;margin-top:10px}.status{font-size:12px;min-height:18px;margin-top:12px;color:#555}.status.error{color:#b42318}.status.ok{color:#26734d}
 .previewwrap{background:#e8e5df;border:1px solid #dedad2;border-radius:22px;padding:22px;display:flex;justify-content:center;overflow:hidden}
 .receipt{position:relative;width:min(100%,370px);background:var(--paper);padding:25px 25px 20px;box-shadow:0 12px 30px #1717171b;transform:rotate(.2deg);isolation:isolate}
 .receipt:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.25;background:repeating-linear-gradient(0deg,transparent 0px,transparent 5px,#cfcac0 6px),radial-gradient(ellipse at 20% 30%,#e9e5dc 0,transparent 60%)}
 .receipt:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:9px;background:linear-gradient(135deg,var(--paper) 6px,transparent 0) 0 0/12px 12px,linear-gradient(225deg,var(--paper) 6px,transparent 0) 0 0/12px 12px;transform:rotate(180deg)}
 .paperhead{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.14em;color:#65615b;font-weight:800;text-transform:uppercase}
 .githubword{font-size:11px;letter-spacing:.08em}
-.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;display:block;margin:21px auto 12px;filter:grayscale(1);border:3px solid #222}
+.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;display:block;margin:21px auto 12px;filter:grayscale(1);border:3px solid #222}.avatar.color-photo{filter:none}
 .username{text-align:center;font-family:Georgia,serif;font-size:27px;font-weight:900;letter-spacing:-.06em;overflow-wrap:anywhere}
 .since{text-align:center;font-family:"Courier New",monospace;font-size:13px;font-weight:bold;letter-spacing:.05em;margin-top:8px}
 .dash{border-top:2px dashed #222;margin:18px 0}
@@ -46,7 +46,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 .active{font-family:"Courier New",monospace;font-weight:900;font-size:13px;display:inline-block;border:2px solid var(--blue);border-radius:50%;padding:7px 10px;transform:rotate(-3deg);margin:2px 0}
 .doodle{color:var(--blue);font-family:"Comic Sans MS",cursive;font-size:15px;position:absolute;right:16px;top:49%;transform:rotate(9deg)}
 .thanks{text-align:center;font-family:"Courier New",monospace;font-size:13px;font-weight:900;letter-spacing:.12em;margin:21px 0 9px}.gh-icon{text-align:center;font-size:25px}
-.sticker{position:absolute;font-size:34px;filter:saturate(1.4);text-shadow:0 2px 2px #0002}.s1{top:70px;left:-15px;transform:rotate(-17deg)}.s2{top:265px;right:-16px;transform:rotate(13deg)}.s3{bottom:25px;right:8px;transform:rotate(-10deg)}
+.sticker{position:absolute;z-index:5;font-size:34px;filter:saturate(1.4);text-shadow:0 2px 2px #0002}.s1{top:70px;left:-15px;transform:rotate(-17deg)}.s2{top:265px;right:-16px;transform:rotate(13deg)}.s3{bottom:25px;right:8px;transform:rotate(-10deg)}
 .preview-actions{display:flex;gap:8px;margin-top:12px}.preview-actions button{flex:1}.secondary{background:#fff;color:#171717;border:1px solid #d9d5ce}
 .foot{text-align:center;color:#88837b;font-size:11px;margin-top:24px}
 @media(max-width:780px){header{padding:20px 16px}main{padding:0 16px}.layout{grid-template-columns:1fr}.hero{margin:20px 0 28px}.panel{padding:20px}.previewwrap{padding:18px}.receipt{max-width:350px}}
@@ -63,6 +63,7 @@ button{border:0;border-radius:12px;background:#171717;color:#fff;padding:13px 17
 <label for="usernameInput">GitHub profile</label>
 <div class="inputrow"><input id="usernameInput" placeholder="github.com/just-sil" autocomplete="url" required><button id="generateBtn" type="submit">Generate ↗</button></div>
 <label for="style">Receipt style</label><select id="style"><option value="classic">Vintage paper + holographic stickers</option><option value="clean">Clean monochrome</option><option value="blue">Blue ink scrapbook</option></select>
+<label class="photo-toggle"><input id="colorPhoto" type="checkbox"> Use colour profile photo</label>
 <label for="caption">Little note (optional)</label><input id="caption" maxlength="35" placeholder="built different, probably">
 <button class="full" id="downloadBtn" type="button">Download receipt as PNG ↓</button>
 <div class="status" id="status" aria-live="polite">Ready when you are.</div>
@@ -183,6 +184,7 @@ function applyStyle(){
 $('form').addEventListener('submit',e=>{e.preventDefault();generate()});
 $('refreshBtn').addEventListener('click',()=>{if(!$('usernameInput').value)$('usernameInput').value=currentUser;generate()});
 $('style').addEventListener('change',applyStyle);
+$('colorPhoto').addEventListener('change',()=>{$('avatar').classList.toggle('color-photo',$('colorPhoto').checked)});
 $('caption').addEventListener('input',()=>{$('cardCaption').textContent=$('caption').value.trim()||activeRandomLine;});
 async function download(){
  if(!generated){setStatus('Generate a real profile first, then download.','error');return}
